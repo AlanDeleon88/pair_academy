@@ -1,11 +1,22 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth.js')
-const { User } = require('../../db/models')
-
+const { User } = require('../../db/models');
+const sessionRouter = require('./session.js');
+const userRouter = require('./users.js');
 
 
 router.use(restoreUser)
+
+router.use('/session', sessionRouter);
+
+router.use('.users', userRouter);
+
+router.post('/test',(req, res) =>{
+    res.json({requestBody: req.body});
+
+});
+
 
 
 
