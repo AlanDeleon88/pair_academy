@@ -10,7 +10,7 @@ router.use(restoreUser)
 
 router.use('/session', sessionRouter);
 
-router.use('.users', userRouter);
+router.use('/users', userRouter);
 
 router.post('/test',(req, res) =>{
     res.json({requestBody: req.body});
