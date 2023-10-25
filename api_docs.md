@@ -289,6 +289,7 @@ user's information.
                 "id" : 1,
                 "cohort" : "SEPT 2023",
                 "teacherId" : 1,
+                "numStudents" : 20,
                 "createdAt" : "dateTime",
                 "updatedAt" : "dateTime"
             },
@@ -296,6 +297,7 @@ user's information.
                 "id" : 2,
                 "cohort" : "MAY 2023",
                 "teacherId" : 1,
+                "numStudents" : 19,
                 "createdAt" : "dateTime",
                 "updatedAt" : "dateTime"
 
@@ -303,8 +305,61 @@ user's information.
             ]
         }
         ```
+
+## Get a cohort by ID
+- Requese
+  - Method: GET
+  - URL /api/cohorts/:cohortId
+  - Headers:
+    - application/json
+  - Body : none
+
+  - Successful response
+    - Status Code: 200
+    - Headers:
+      - application/json
+    - Body:
+      ```json
+        {
+          "id" : 1,
+          "cohort" : "SEPT 2023",
+          "instructorId" : 1,
+          "createdAt" : "dateTime",
+          "updatedAt" : "dateTime"
+        }
+
+
+      ```
+
+## Add a new cohort
+- Require Authentication : true
+- Request
+  - Method: POST
+  - URL /api/cohorts
+- Headers:
+  - application/json
+- Body:
+```json
+  {
+    "cohort" : "MAY 2023"
+  }
+```
+- Successful response
+- Headers:
+  - application/json
+- Body:
+  ```json
+    {
+      "cohort" : "MAY 2023",
+      "teacherId" : 1,
+      "createdAt" : "dateTime",
+      "updatedAt" : "dateTime"
+
+     }
+  ```
+
 ## Get all students for a cohort
-- Require Authentication : true,
+- Require Authentication : true
 - Request
     - Method: GET
     - URL : /api/cohorts/:cohortId/students
@@ -344,14 +399,296 @@ user's information.
             ]
         }
     ```
+  * Error response: Body Validation
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 403,
+      "errors": {
+        "cohort" : "cannot be null"
+      }
+    }
+    ```
+## Add a new Student to cohort
+- Require Authentication: true
+- Request
+  - Method: POST
+  - URL : /api/cohorts/:cohortId/students
+  - Headers
+    - application/json
+  - Body:
+  ```json
+    {
+      "firstName" : "John",
+      "lastName" : "Doe",
+      "email" : "email@email.com",
+      "timeZone" : "PST",
+      "status" : "present"
+    }
+  ```
+  - Successful Response
+  - Status Code : 200
+  - Headers
+    - application/json
+  - Body
+  ```json
+    {
+      "id" : 1,
+      "cohortId" : 1,
+      "firstName" : "John",
+      "lastName" : "Doe",
+      "email" : "email@email.com",
+      "timeZone" : "PST",
+      "status" : "present",
+       "createdAt" : "dateTime",
+      "updatedAt" : "dateTime"
+    }
+  ```
+  * Error response: student already exists with the specified email
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "student already exists",
+      "statusCode": 403,
+      "errors": {
+        "email": "student with that email already exists"
+      }
+    }
+    ```
+  * Error response: Body Validation
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 403,
+      "errors": {
+        "email" : "must be a valid email address",
+        "firstName" : "must be 2 or more characters long",
+        "lastName" : "must be 2 or more characters long",
+        "timeZone" : "must be either PST or EST",
+      }
+    }
+    ```
+
 
 # Students
-## Get all students? maybe for a search to edit?
+## Get all students? maybe for a search query?
+- Request
+  - Method: GET
+  - URL /api/students/?query ? optional
+  - Headers: none
+  - Body: none
+- Sucessful response
+  - Status Code: 200
+  - Headers: application/json
+  - Body:
+    ```json
+      {
+        "students" : [
+          {
+            "id" : 1,
+            "firstName" : "John",
+            "lastName" : "Doe",
+            "email" : "mail@mail.com",
+            "cohortId" : 1,
+            "timeZone" : "PST",
+            "status" : "present",
+            "createdAt" : "dateTime",
+            "updatedAt" : "dateTime"
+          },
+          {
+            "id" : 1,
+            "firstName" : "Jane",
+            "lastName" : "Dee",
+            "email" : "mail@mail.com",
+            "cohortId" : 1,
+            "timeZone" : "EST",
+            "status" : "absent",
+            "createdAt" : "dateTime",
+            "updatedAt" : "dateTime"
+
+          }
+        ]
+
+      }
+    ```
 
 ## Get student by id
 
-## Add a new Student
+- Request
+  - Method: GET
+  - URL: /api/students/:studentId
+  - Headers: none
+  - Body: none
+- Sucessful response
+  - Status Code: 200
+  - Headers: application/json
+  - Body:
+    ```json
+          {
+            "id" : 1,
+            "firstName" : "John",
+            "lastName" : "Doe",
+            "email" : "mail@mail.com",
+            "cohortId" : 1,
+            "timeZone" : "PST",
+            "status" : "present",
+            "createdAt" : "dateTime",
+            "updatedAt" : "dateTime"
+          },
+    ```
+  * Error response: student could not be found
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
 
-## Edit a student --> maybe can change PST / EST and status for "present" / "absent"
+    ```json
+    {
+      "message": "student with that Id could not be found",
+      "statusCode": 404,
+      "errors": {
+        "error": "student with that Id could not be found",
+      }
+    }
+    ```
+
+## Edit a student --> status for "present" / "absent"
+- Require Authorization: true
+- Request
+  - Method: PUT
+  - URL: /api/students/:studentId/status
+  - Headers:
+    - application/json
+  - Body :
+  ```json
+    {
+      "status" : "absent"
+    }
+  ```
+
+- Successful Response
+  - Status Code: 201
+  - Headers:
+    - application/json
+  - Body:
+  ```json
+    {
+      "id" : 1,
+      "firstName" : "John",
+      "lastName" : "Doe",
+      "email" : "email@mail.com",
+      "cohortId" : 1,
+      "status" : "absent",
+      "timezone" : "EST",
+      "createdAt": "dateTime",
+      "updatedAt" : "dateTime"
+    }
+  ```
+
+  * Error response: student could not be found
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "student with that Id could not be found",
+      "statusCode": 404,
+      "errors": {
+        "error": "student with that Id could not be found",
+      }
+    }
+
+  * Error response: Body Validation
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Body Validation",
+      "statusCode": 403,
+      "errors": {
+        "status": "cannot be null",
+        "status" : "must be equal to either "present" or "absent""
+      }
+    }
+
+## Edit a student timezone
+- Require Authorization: true
+- Request
+  - Method: PUT
+  - URL: /api/students/:studentId/timeZone
+  - Headers:
+    - application/json
+  - Body :
+  ```json
+    {
+      "timeZone" : "PST"
+    }
+  ```
+
+- Successful Response
+  - Status Code: 201
+  - Headers:
+    - application/json
+  - Body:
+  ```json
+    {
+      "id" : 1,
+      "firstName" : "John",
+      "lastName" : "Doe",
+    }
+  ```
+
+  * Error response: student could not be found
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "student with that Id could not be found",
+      "statusCode": 404,
+      "errors": {
+        "error": "student with that Id could not be found",
+      }
+    }
+
+  * Error response: Body Validation
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Body Validation",
+      "statusCode": 403,
+      "errors": {
+        "timeZone": "cannot be null",
+        "timeZone" : "must be equal to either "PST" or "EST""
+      }
+    }
+
+
+## Edit student info
 
 ## Delete a student
