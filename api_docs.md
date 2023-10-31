@@ -654,6 +654,12 @@ user's information.
       "id" : 1,
       "firstName" : "John",
       "lastName" : "Doe",
+      "email" : "email@mail.com",
+      "cohortId" : 1,
+      "status" : "absent",
+      "timezone" : "PST",
+      "createdAt": "dateTime",
+      "updatedAt" : "dateTime"
     }
   ```
 
@@ -690,5 +696,102 @@ user's information.
 
 
 ## Edit student info
+- Require Authorization: true
+- Request
+  - Method: PUT
+  - URL: /api/students/:studentId/info
+  - Headers:
+    - application/json
+  - Body :
+  ```json
+    {
+      "firstName" : "Johnny",
+      "lastName" : "Doeeer",
+      "email" : "newEmail@mail.com",
+    }
+  ```
+
+- Successful Response
+  - Status Code: 201
+  - Headers:
+    - application/json
+  - Body:
+  ```json
+    {
+      "id" : 1,
+      "firstName" : "Johnny",
+      "lastName" : "Doeeer",
+      "email" : "newEmail@mail.com",
+      "cohortId" : 1,
+      "status" : "absent",
+      "timezone" : "PST",
+      "createdAt": "dateTime",
+      "updatedAt" : "dateTime"
+    }
+  ```
+
+  * Error response: student could not be found
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "student with that Id could not be found",
+      "statusCode": 404,
+      "errors": {
+        "error": "student with that Id could not be found",
+      }
+    }
+
+  * Error response: Body Validation
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Body Validation",
+      "statusCode": 403,
+      "errors": {
+        "body": "firstName, lastName, email cannot all be null",
+      }
+    }
+
 
 ## Delete a student
+- Require Authorization: true
+- Request
+  - Method: DELETE
+  - URL: /api/students/:studentId
+  - Headers:
+    - application/json
+  - Body: none
+
+- Sucessful Response
+  - Status Code: 201
+  - Headers:
+    - application/json
+  - Body:
+    ```json
+      {
+        "message" : "Succesfully Deleted"
+      }
+    ```
+
+  * Error response: student could not be found
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "student with that Id could not be found",
+      "statusCode": 404,
+      "errors": {
+        "error": "student with that Id could not be found",
+      }
+    }
