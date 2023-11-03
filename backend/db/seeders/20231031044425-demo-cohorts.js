@@ -41,7 +41,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op
-    return queryInterface.bulkDelete('Users', {
+    return queryInterface.bulkDelete('Cohorts', {
       cohort: { [Op.in]: ['MAY-30-2023', 'SEP-18-2023', 'JAN-15-2022', 'NOV-20-2021'] }
     }, {})
   }
