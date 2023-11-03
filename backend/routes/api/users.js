@@ -1,10 +1,11 @@
 const express = require('express');
 
 const {setTokenCookie, requireAuth} = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Cohort } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const cohort = require('../../db/models/cohort');
 
 const router = express.Router();
 
@@ -27,6 +28,29 @@ const validateSignup = [
         .withMessage('Password must be 6 characters or more.'),
         handleValidationErrors
 ];
+
+
+router.get(
+    '/:userId/cohorts',
+    async (req, res) => {
+        let { userId } = req.params;
+
+        // console.log(id);
+
+        const cohorts = await Cohort.findAll({
+            where: {
+                teacherId : userId
+            }
+        })
+        res.statusCode = 200;
+
+        return res.json({
+            cohorts
+        })
+    }
+
+
+)
 
 //sign up
 router.post(
