@@ -4,6 +4,7 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth.j
 const { User } = require('../../db/models');
 const sessionRouter = require('./session.js');
 const userRouter = require('./users.js');
+const cohortRouter = require('./cohort.js');
 
 
 router.use(restoreUser)
@@ -11,6 +12,10 @@ router.use(restoreUser)
 router.use('/session', sessionRouter);
 
 router.use('/users', userRouter);
+
+router.use('/cohorts', cohortRouter);
+
+
 
 router.post('/test',(req, res) =>{
     res.json({requestBody: req.body});
