@@ -87,7 +87,7 @@ module.exports = {
         lastName: 'dee',
         email: 'test444@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -95,7 +95,7 @@ module.exports = {
         lastName: 'reqtan',
         email: 'test78882@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -103,7 +103,7 @@ module.exports = {
         lastName: 'beda2sds',
         email: 'test334223@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -111,7 +111,7 @@ module.exports = {
         lastName: 'preasdwe',
         email: 'test343144@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -119,7 +119,7 @@ module.exports = {
         lastName: 'jofaerae',
         email: 'testsadas2@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -127,7 +127,7 @@ module.exports = {
         lastName: 'teaa34sf',
         email: 'test23sa4@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -135,7 +135,7 @@ module.exports = {
         lastName: 'samepliet',
         email: 'test345werw2@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       },
       {
@@ -143,7 +143,7 @@ module.exports = {
         lastName: 'bhuiop',
         email: 'test234224@email.com',
         cohortId: 1,
-        timeZone: "EST",
+        timeZone: "PST",
         status: "present"
       }
     ]

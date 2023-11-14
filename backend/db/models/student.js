@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Student.belongsTo(models.Cohort, {
+        foreignKey: 'cohortId',
+        onDelete: 'cascade',
+        hooks: true
+      })
     }
   }
   Student.init({
@@ -38,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     cohortId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     timeZone: {
