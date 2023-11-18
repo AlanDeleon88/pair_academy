@@ -4,8 +4,18 @@ const { User, Cohort, Student } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { requireAuth } = require('../../utils/auth');
+const user = require('../../db/models/user');
 
 const router = express.Router();
+
+const validateCohort = [
+    check('cohort')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a cohort name'),
+    handleValidationErrors
+]
 
 
 
@@ -66,6 +76,24 @@ router.get(
         return res.json({
             cohorts
         })
+    }
+)
+
+router.post(
+    '/',
+    [validateCohort, requireAuth],
+    async (req, res, next) => {
+        const { cohort } = req.body;
+        const { user } = req;
+        const userId = req.user.id;
+
+        const newCohort = await Cohort.create({
+            cohort,
+            teacherId : userId
+        })
+        user.addCohorts([newCohort])
+        res.statusCode = 201;
+        res.json(newCohort)
     }
 )
 
