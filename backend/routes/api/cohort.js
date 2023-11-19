@@ -17,8 +17,24 @@ const validateCohort = [
     handleValidationErrors
 ]
 
+validateNewStudent = [
+    check('firstName')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 2 })
+        .withMessage('Please provide a name with at least 2 characters'),
+    check('lastName')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 2 })
+        .withMessage('Please provide a last name with at least 2 characters'),
+    check('email')
+        .exists({ checkFalsy: true })
+        .isEmail()
+        .withMessage('Please provide a valid email.'),
+]
 
 
+
+//! get all students in a cohort
 router.get(
     '/:id/students',
     async (req, res, next) => {
@@ -42,7 +58,7 @@ router.get(
     }
 )
 
-
+//! get cohort by ID
 router.get(
     '/:id',
     async (req, res, next) => {
@@ -66,6 +82,7 @@ router.get(
     }
 )
 
+//! find all cohorts
 router.get(
     '/',
     async (req, res) => {
@@ -79,6 +96,7 @@ router.get(
     }
 )
 
+//! Create new cohort
 router.post(
     '/',
     [validateCohort, requireAuth],
@@ -97,5 +115,36 @@ router.post(
     }
 )
 
+//! create new student in cohort
+router.post(
+    '/:id/students/new/',
+    [validateNewStudent, requireAuth],
+    async (req, res, next) => {
+        const { id } = req.params;
+        const { firstName, lastName, email, timeZone, status } = req.body;
+
+        const cohort = await Cohort.findByPk(id);
+        if (!cohort) {
+            //! throw error
+        }
+
+        const newStudent = await Student.create({
+            firstName: firstName,
+            lastName: lastName,
+            cohortId: cohort.id,
+            email: email,
+            timeZone: timeZone,
+            status: status
+        })
+
+        cohort.addStudents([newStudent]);
+        res.statusCode = 201;
+        res.json({
+            cohort,
+            student: newStudent
+        });
+
+    }
+)
 
 module.exports = router;
