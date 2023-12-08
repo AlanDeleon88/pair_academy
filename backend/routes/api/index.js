@@ -5,6 +5,7 @@ const { User } = require('../../db/models');
 const sessionRouter = require('./session.js');
 const userRouter = require('./users.js');
 const cohortRouter = require('./cohort.js');
+const studentRouter = require('./students.js');
 
 
 router.use(restoreUser)
@@ -14,6 +15,8 @@ router.use('/session', sessionRouter);
 router.use('/users', userRouter);
 
 router.use('/cohorts', cohortRouter);
+
+router.use('/students', studentRouter);
 
 
 
