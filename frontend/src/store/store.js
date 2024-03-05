@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { thunk }  from 'redux-thunk';
 
 const rootReducer = combineReducers({
 
@@ -20,7 +20,7 @@ else {
 
 const configureStore = (preloadedState) => {
     return createStore(rootReducer, preloadedState, enhancer);
-}
+};
 
 
 export default configureStore;
